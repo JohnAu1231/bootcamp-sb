@@ -1,0 +1,8 @@
+server:
+  port: 8084
+
+  api:
+    availablepark:
+      domain: 'api.data.gov.hk'
+      endpoints:
+        carpark: '/v1/carpark-info-vacancy'

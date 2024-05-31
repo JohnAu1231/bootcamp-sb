@@ -1,0 +1,5 @@
+server:
+  port: 8081
+
+#server.port by default 8080
+#server.port: 8081

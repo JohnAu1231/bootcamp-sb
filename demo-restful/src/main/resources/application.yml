@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+api:
+  json-place-holder:
+    domain: 'jsonplaceholder.typicode.com'
+    endpoints:
+      users: '/users'
+      posts: '/posts'
+
+database: 
+  db-name: "springboot"
+
+spring:
+  datasource:
+    driverClassName: "org.postgresql.Driver"
+    url: "jdbc:postgresql://localhost:5432/${database.db-name}"
+    username: "postgres"
+    password: "admin1234"
+
+spring.jpa:
+  show-sql: true
+  hibernate.ddl-auto: create-drop # update
+  #create-drop = compare column, if different drop and create
+  #update = if column exists, ignore the different  don't update, if not create the column
+  #validate = if data different, server sompile fail
+  # Hibernate ddl auto (create, create-drop, validate, update)

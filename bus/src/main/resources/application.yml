@@ -1,0 +1,8 @@
+server:
+  port: 8085
+
+api:
+  bus-api-holder:
+    domain: 'data.etabus.gov.hk'
+    endpoints:
+      bus: 'v1/transport/kmb/eta'
