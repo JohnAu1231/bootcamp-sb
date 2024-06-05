@@ -19,8 +19,9 @@ spring:
     password: "admin1234"
 
 spring.jpa:
-  show-sql: true
-  hibernate.ddl-auto: create-drop # update
+  show-sql: true 
+  # use true when testing, after well test , use false
+  hibernate.ddl-auto: update # update
   #create-drop = compare column, if different drop and create
   #update = if column exists, ignore the different  don't update, if not create the column
   #validate = if data different, server sompile fail

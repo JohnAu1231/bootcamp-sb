@@ -1,7 +1,7 @@
 package com.bootcamp.demo_restful.infra;
 
 import java.util.List;
-import com.bootcamp.demo_restful.dto.UserDTO;
+import com.bootcamp.demo_restful.dto.resoDto.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,12 +45,20 @@ public class ApiResp<T> {
     }
 
     public ApiRespBuilder<T> message(String message) {
+      if(message == null) 
+        throw new NullPointerException("message should not be null.");
       this.message = message;
       return this;
     }
 
     public ApiRespBuilder<T> data(List<T> data) {
       this.data = data;
+      return this;
+    }
+
+    public ApiRespBuilder<T> error(ErrorCode errorCode) {
+      this.code = errorCode.getCode();
+      this.message = errorCode.getDesc();
       return this;
     }
 
@@ -64,14 +72,17 @@ public class ApiResp<T> {
       return this;
     }
 
-    // public ApiRespBuilder<T> badRequest() {
-    // this.code = 99;
-    // this.message = "Bad Request.";
-    // return this;
-    // }
-
   }
 
+  public String toString() {
+    return "ApiResp(" //
+        + "code=" + this.getCode() //
+        + ", message=" + this.getMessage() //
+        + ", data=" + String.valueOf(this.getData()) //
+        + ")";
+  }
+
+  
   public static void main(String[] args) {
 
     ApiResp<UserDTO> response = ApiResp.<UserDTO>builder() //
@@ -103,5 +114,6 @@ public class ApiResp<T> {
     System.out.println("error");
   }
   }
+
 }
 

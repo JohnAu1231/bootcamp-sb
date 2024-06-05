@@ -1,9 +1,12 @@
 package com.bootcamp.post.model.dto;
 
+import lombok.Getter;
+
+@Getter
 public class ExPostDTO {
   
-  int userId;
-  int id;
-  String title;
-  String body;
+  private long userId;
+  private long id;
+  private String title;
+  private String body;
 }

@@ -2,12 +2,15 @@ package com.bootcamp.demo_restful.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.bootcamp.demo_restful.dto.reqDto.UserReqDTO;
 import com.bootcamp.demo_restful.entity.UserEntity;
+import com.bootcamp.demo_restful.infra.NotFoundException;
 import com.bootcamp.demo_restful.infra.Scheme;
 import com.bootcamp.demo_restful.model.dto.User;
 import com.bootcamp.demo_restful.repository.UserRespository;
@@ -52,6 +55,38 @@ public class UserServiceImpl implements UserService{
 
   }
 
+  @Override
+  public UserEntity getUserById(Long id) {
+    Optional<UserEntity> userEntity = userRespository.findById(id);
+    if (userEntity.isPresent()) 
+      return userEntity.get();
+    throw new NotFoundException();
+  }
+
+  @Override
+  public UserEntity getUserByPhone(String phone) {
+    Optional<UserEntity> userEntity = Optional.of(userRespository.findByPhone(phone));
+    if (userEntity.isPresent())
+      return userEntity.get();
+    throw new NotFoundException();
+  }
+
+  @Override
+  public List<UserEntity>  getUserByName(String name) {
+    Optional<List<UserEntity>> userEntities = Optional.of(userRespository.findByName(name));
+    if (userEntities.isPresent())
+      return userEntities.get();
+    throw new NotFoundException();
+  }
+
+  @Override
+  public List<UserEntity> getUserNameOrderById(String name) {
+    Optional<List<UserEntity>> userEntities = Optional.of(userRespository.findByNameOrderByIdDesc(name));
+    if (userEntities.isPresent()) 
+      return userEntities.get();
+    throw new NotFoundException();
+  }
+
   // @Override
   // public User save(User user) {
   //   boolean duplicate = userList.stream() //
@@ -68,4 +103,40 @@ public class UserServiceImpl implements UserService{
   public UserEntity save(UserEntity user) {
     return userRespository.save(user);
   }
+
+  @Override
+  public UserEntity deleteById(Long id) { // id not exists?
+    Optional<UserEntity> userEntity = userRespository.findById(id);
+    if (userEntity.isPresent()) {
+      userRespository.deleteById(id);
+      return userEntity.get();
+    }
+    throw new NotFoundException();
+  }
+
+  @Override
+    public UserEntity updateUser(Long id, UserEntity user) {
+
+      Optional<UserEntity> userEntity = userRespository.findById(id);
+    if (userEntity.isPresent()) {
+        userRespository.save(user);
+      return user;
+    }
+    throw new NotFoundException();
+  }
+
+  @Override
+  public UserEntity updateEmailById(Long id, UserReqDTO userReqDTO) {
+    Optional<UserEntity> userEntity = userRespository.findById(id);
+    if (userEntity.isPresent()) {
+      UserEntity entity = userEntity.get();
+      entity.setEmail(userReqDTO.getEmail());
+      userRespository.save(entity); 
+      return entity;
+    }
+    throw new NotFoundException();
+  }
+
+
+  
 }

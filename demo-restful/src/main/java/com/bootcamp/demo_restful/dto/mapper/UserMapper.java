@@ -1,7 +1,7 @@
 package com.bootcamp.demo_restful.dto.mapper;
 
 import org.springframework.stereotype.Component;
-import com.bootcamp.demo_restful.dto.UserDTO;
+import com.bootcamp.demo_restful.dto.resoDto.UserDTO;
 import com.bootcamp.demo_restful.model.dto.User;
 
 @Component

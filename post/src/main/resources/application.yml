@@ -1,0 +1,8 @@
+server:
+  port: 8086
+
+api:
+  json-place-holder:
+    domain: 'jsonplaceholder.typicode.com'
+    endpoints:
+      posts: '/posts'

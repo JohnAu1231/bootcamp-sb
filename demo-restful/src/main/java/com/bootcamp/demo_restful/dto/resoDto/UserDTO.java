@@ -1,4 +1,4 @@
-package com.bootcamp.demo_restful.dto;
+package com.bootcamp.demo_restful.dto.resoDto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

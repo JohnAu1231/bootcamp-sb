@@ -9,12 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 
 // JPA will generate the DDL (Create Tale) by the defintion in Entity Classes
 
 @Entity
 @Getter
+@Setter
 @Table(name = "Users")
 public class UserEntity {
   
@@ -24,6 +26,8 @@ public class UserEntity {
   private String name;
   @Column(name = "user_name")
   private String userName;
+  private String email;
+  private String phone;
   // ...
   @Column(name = "addr_street")
   private String addrStreet;
@@ -38,7 +42,6 @@ public class UserEntity {
   @Column(name = "addr_lng")
   private String addrLng;
   
-  private String phone;
   private String website;
   @Column(name = "company_name")
   private String companyName;

@@ -12,11 +12,11 @@ import jakarta.websocket.server.PathParam;
 
 public interface BusOperation {
   
-  @GetMapping(value = "bus/{stop_id}/{route}/{service_type}")
+  @GetMapping(value = "/bus/{stop_id}/{route}/{service_type}")
   @ResponseStatus(value = HttpStatus.OK)
   BusDTO nextBus(@PathVariable String stop_id, @PathVariable String route, @PathVariable String service_type);
 
-  @GetMapping(value = "buses/{stop_id}/{route}/{service_type}")
+  @GetMapping(value = "/buses/{stop_id}/{route}/{service_type}")
   @ResponseStatus(value = HttpStatus.OK)
   List<BusDTO> nextBuses(@PathVariable String stop_id, @PathVariable String route, @PathVariable String service_type);
 }
