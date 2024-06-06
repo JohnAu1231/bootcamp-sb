@@ -22,27 +22,45 @@ public class CommentController implements CommentOperation {
   @Autowired
   private UserMapper userMapper;
 
+  // @Override
+  // public UserWithCommentDTO getCommentById(int id) {
+  //   userService.getComments();
+  //   userService.getPosts();
+  //   List<UserDTO> ls = userService.getUsers().stream() //
+  //       .map(e -> userMapper.mapToUserDTO(e)) //
+  //       .filter(e -> e.getId() == id) //
+  //       .collect(Collectors.toList()); //
+  //   if (ls.size() == 0)
+  //     throw new NotFoundException();
+  //   // List<CommentWithoutIdDTO> result = new ArrayList<>();
+
+  //   // for (int i = 0; i < ls.size(); i++) {
+  //   //   for (int j = 0; j < ls.get(i).getPosts().size(); j++) {
+  //   //     for (int k = 0; k < ls.get(i).getPosts().get(j).getComments()
+  //   //         .size(); k++) {
+  //   //       result.add(userMapper.mapToCommentWithoutIdDTO(
+  //   //           ls.get(i).getPosts().get(j).getComments().get(k)));
+  //   //     }
+  //   //   }
+  //   // }
+
+  //  List<CommentWithoutIdDTO> comments = ls.stream()
+  //   .flatMap(l -> l.getPosts().stream())
+  //   .flatMap(p -> p.getComments().stream())
+  //   .map(c -> userMapper.mapToCommentWithoutIdDTO(c))
+  //   .collect(Collectors.toList());
+
+  //   return userMapper.mapToUserWithCommentDTO(ls.get(0), comments);
+  // }
+
   @Override
   public UserWithCommentDTO getCommentById(int id) {
-    userService.getComments();
-    userService.getPosts();
     List<UserDTO> ls = userService.getUsers().stream() //
-        .map(e -> userMapper.mapToUserDTO(e)) //
+        .map(e -> userMapper.mapToUserDTO(e, userService.getPosts(),   userService.getComments())) //
         .filter(e -> e.getId() == id) //
         .collect(Collectors.toList()); //
     if (ls.size() == 0)
       throw new NotFoundException();
-    // List<CommentWithoutIdDTO> result = new ArrayList<>();
-
-    // for (int i = 0; i < ls.size(); i++) {
-    //   for (int j = 0; j < ls.get(i).getPosts().size(); j++) {
-    //     for (int k = 0; k < ls.get(i).getPosts().get(j).getComments()
-    //         .size(); k++) {
-    //       result.add(userMapper.mapToCommentWithoutIdDTO(
-    //           ls.get(i).getPosts().get(j).getComments().get(k)));
-    //     }
-    //   }
-    // }
 
    List<CommentWithoutIdDTO> comments = ls.stream()
     .flatMap(l -> l.getPosts().stream())

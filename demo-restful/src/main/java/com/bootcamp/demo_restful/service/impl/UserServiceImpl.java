@@ -87,6 +87,14 @@ public class UserServiceImpl implements UserService{
     throw new NotFoundException();
   }
 
+  @Override
+  public List<UserEntity> getUserbyAddLatGreaterThan(Double latitude) {
+    Optional<List<UserEntity>> userEntities = userRespository.findByAddrLatGreaterThan(latitude);
+    if (userEntities.isPresent())
+      return userEntities.get();
+    throw new NotFoundException();
+  }
+
   // @Override
   // public User save(User user) {
   //   boolean duplicate = userList.stream() //
@@ -135,6 +143,11 @@ public class UserServiceImpl implements UserService{
       return entity;
     }
     throw new NotFoundException();
+  }
+
+  @Override
+ public Integer updateUserEmail(Long id, String email) {
+  return userRespository.updateUserEmail(id, email);
   }
 
 

@@ -110,6 +110,18 @@ public class UserController implements UserOperation {
             .data(List.of(userService.updateEmailById(id, userReqDTO))) //
             .build();
   }
+
+  @Override
+  public List<UserEntity> getUserbyAddLatGreaterThan(Double latitude) {
+    return userService.getUserbyAddLatGreaterThan(latitude);
+  }
+
+  @Override
+  public Integer updateUserEmail(Long id, String email) {
+    return  userService.updateUserEmail(id, email);
+  }
+
+
 }
 
 

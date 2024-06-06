@@ -7,12 +7,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
+@ToString
 public class UserDTO {
   private int id;
   private String name;
@@ -28,6 +30,7 @@ public class UserDTO {
   @NoArgsConstructor
   @Builder
   @Getter
+  @ToString
   public static class PostDTO {
     int id;
     String title;
@@ -38,6 +41,7 @@ public class UserDTO {
     @NoArgsConstructor
     @Builder
     @Getter
+    @ToString
     public static class CommentDTO {
       int id;
       String name;

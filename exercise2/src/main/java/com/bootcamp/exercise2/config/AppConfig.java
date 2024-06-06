@@ -20,18 +20,18 @@ public class AppConfig {
     return new RestTemplate();
   }
 
-  @Bean
-  Map<Integer, ExUserDTO> usersBean() {
-    return new HashMap<>();
-  }
+  // @Bean
+  // Map<Integer, ExUserDTO> usersBean() {
+  //   return new HashMap<>();
+  // }
 
-  @Bean
-  MultiValueMap<Integer, ExPostDTO> postsBean() {
-    return new LinkedMultiValueMap<>();
-  }
+  // @Bean
+  // MultiValueMap<Integer, ExPostDTO> postsBean() {
+  //   return new LinkedMultiValueMap<>();
+  // }
 
-  @Bean
-  MultiValueMap<Integer, ExCommentDTO> commentsBean() {
-    return new LinkedMultiValueMap<>();
-  }
+  // @Bean
+  // MultiValueMap<Integer, ExCommentDTO> commentsBean() {
+  //   return new LinkedMultiValueMap<>();
+  // }
 }

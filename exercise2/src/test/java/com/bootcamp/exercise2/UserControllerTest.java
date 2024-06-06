@@ -1,6 +1,7 @@
 package com.bootcamp.exercise2;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,70 +33,47 @@ import lombok.extern.slf4j.Slf4j;
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
-  @MockBean
-  private UserService userService;
+    @MockBean
+    private UserService userService;
 
-  @MockBean
-  private UserMapper userMapper;
+    @SpyBean
+    private UserMapper userMapper;
 
-  @MockBean
-  private AppConfig appConfig;
+    @Autowired
+    private MockMvc mockMvc;
 
-  @MockBean
-  private Map<Integer, ExUserDTO> usersBean;
+    @Test
+    void testGetUsers() throws Exception {
+        ExCommentDTO comment1 =
+                new ExCommentDTO(1, 1, "a", "123@gmail.com", "hello");
+        ExPostDTO post1 = new ExPostDTO(1, 1, "yo", "hiall");
+        ExUserDTO user1 = new ExUserDTO(1, "John", "Cat", "123@gmail.com",
+                new ExUserDTO.Address(), "12345678", "abc.com",
+                new ExUserDTO.Company());
+        ExUserDTO user2 = new ExUserDTO(2, "John", "Cat", "123@gmail.com",
+                new ExUserDTO.Address(), "12345678", "abc.com",
+                new ExUserDTO.Company());
 
-  @MockBean
-  private MultiValueMap<Integer, ExPostDTO> postsBean;
+        Mockito.when(userService.getComments()) //
+                .thenReturn(new ArrayList<>(List.of(comment1)));
 
-  @MockBean
-  private MultiValueMap<Integer, ExCommentDTO> commentsBean;
+        Mockito.when(userService.getPosts()) //
+                .thenReturn(new ArrayList<>(List.of(post1)));
 
-  @Autowired
-  private MockMvc mockMvc;
+        Mockito.when(userService.getUsers()) //
+                .thenReturn(new ArrayList<>(List.of(user1, user2)));
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/users")) //
+                .andExpect(MockMvcResultMatchers.status().isOk())//
+                .andExpect(
+                        MockMvcResultMatchers.jsonPath("$.length()").value(2))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].email")
+                        .value("123@gmail.com"))//
+        ;
+        verify(userService, times(1)).getUsers();
 
-  @Test
-  void testGetUsers() throws Exception {
-    ExCommentDTO comment1 =
-        new ExCommentDTO(1, 1, "a", "123@gmail.com", "hello");
-    ExPostDTO post1 = new ExPostDTO(1, 1, "yo", "hiall");
-    ExUserDTO user1 = new ExUserDTO(1, "John", "Cat", "123@gmail.com",
-        new ExUserDTO.Address(), "12345678", "abc.com",
-        new ExUserDTO.Company());
-    ExUserDTO user2 = new ExUserDTO(1, "John", "Cat", "123@gmail.com",
-        new ExUserDTO.Address(), "12345678", "abc.com",
-        new ExUserDTO.Company());
+    }
 
-    UserDTO userDTO1 = new UserDTO();
-    userDTO1.setId(1);
-    UserDTO userDTO2 = new UserDTO();
-    userDTO1.setId(2);
-    userDTO2.setEmail("123@gmail.com");
-
-    Mockito.when(userService.getComments()) //
-        .thenReturn(new ArrayList<>(List.of(comment1)));
-
-    Mockito.when(userService.getPosts()) //
-        .thenReturn(new ArrayList<>(List.of(post1)));
-
-    Mockito.when(userService.getUsers()) //
-        .thenReturn(new ArrayList<>(List.of(user1, user2)));
-
-    Mockito.when(userMapper.mapToUserDTO(user1)).thenReturn(userDTO1);
-    // Mockito.when(userMapper.mapToUserDTO(user2)).thenReturn(userDTO2);
-    // Mockito.when(userService.getUsers().stream()//
-    // .map(e -> userMapper.mapToUserDTO(e))//
-    // .collect(Collectors.toList()))//
-    // .thenReturn(List.of(userDTO1, userDTO2));
-
-
-    mockMvc.perform(MockMvcRequestBuilders.get("/users")) //
-        .andExpect(MockMvcResultMatchers.status().isOk())//
-        .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))//
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))//
-    // .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))//
-    // .andExpect(
-    // MockMvcResultMatchers.jsonPath("$[1].email").value("123@gmail.com"))//
-    ;
-  }
 }

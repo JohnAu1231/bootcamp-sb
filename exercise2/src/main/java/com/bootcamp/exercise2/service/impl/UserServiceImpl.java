@@ -36,70 +36,35 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private RestTemplate restTemplate;
 
-  @Autowired
-  private Map<Integer, ExUserDTO> usersBean;
-
-  @Autowired
-  private MultiValueMap<Integer, ExPostDTO> postsBean;
-
-  @Autowired
-  private MultiValueMap<Integer, ExCommentDTO> commentsBean;
-
   @Override
   public List<ExUserDTO> getUsers() {
-    boolean empty = usersBean //
-        .isEmpty();
-    if (empty) {
       String url = UriComponentsBuilder.newInstance() //
           .scheme(Scheme.HTTPS.lowercase()) //
           .host(this.domain) //
           .path(this.usersEndpoint) //
           .toUriString(); //
       ExUserDTO[] users = restTemplate.getForObject(url, ExUserDTO[].class);
-      for (int i = 0; i < users.length; i++) {
-        usersBean.put(users[i].getId(), users[i]);
-      }
+
       return Arrays.asList(users);
-    } else {
-      List<ExUserDTO> ls = new ArrayList<ExUserDTO>();
-      for (Map.Entry<Integer, ExUserDTO> entry : usersBean.entrySet()) {
-        ls.add(entry.getValue());
-      }
-      return ls;
-    }
   }
 
   @Override
   public List<ExPostDTO> getPosts() {
-    boolean empty = postsBean //
-        .isEmpty();
-    if (empty) {
+
       String url = UriComponentsBuilder.newInstance() //
           .scheme(Scheme.HTTPS.lowercase()) //
           .host(this.domain) //
           .path(this.postsEndpoint) //
           .toUriString(); //
       ExPostDTO[] posts = restTemplate.getForObject(url, ExPostDTO[].class);
-      for (int i = 0; i < posts.length; i++) {
-        postsBean.add(posts[i].getUserId(), posts[i]);
-      }
+
       return Arrays.asList(posts);
-    } else {
-      List<ExPostDTO> ls = new ArrayList<ExPostDTO>();
-      for (Integer key : postsBean.keySet()) {
-        for (ExPostDTO value : postsBean.get(key)) {
-          ls.add(value);
-        }
-      }
-      return ls;
-    }
+
   }
 
   @Override
   public List<ExCommentDTO> getComments() {
-    boolean empty = commentsBean //
-        .isEmpty();
-    if (empty) {
+
       String url = UriComponentsBuilder.newInstance() //
           .scheme(Scheme.HTTPS.lowercase()) //
           .host(this.domain) //
@@ -107,18 +72,84 @@ public class UserServiceImpl implements UserService {
           .toUriString(); //
       ExCommentDTO[] comments =
           restTemplate.getForObject(url, ExCommentDTO[].class);
-      for (int i = 0; i < comments.length; i++) {
-        commentsBean.add(comments[i].getPostId(), comments[i]);
-      }
       return Arrays.asList(comments);
-    } else {
-      List<ExCommentDTO> ls = new ArrayList<ExCommentDTO>();
-      for (Integer key : commentsBean.keySet()) {
-        for (ExCommentDTO value : commentsBean.get(key)) {
-          ls.add(value);
-        }
-      }
-      return ls;
     }
-  }
 }
+//   @Override
+//   public List<ExUserDTO> getUsers() {
+//     boolean empty = usersBean //
+//         .isEmpty();
+//     if (empty) {
+//       String url = UriComponentsBuilder.newInstance() //
+//           .scheme(Scheme.HTTPS.lowercase()) //
+//           .host(this.domain) //
+//           .path(this.usersEndpoint) //
+//           .toUriString(); //
+//       ExUserDTO[] users = restTemplate.getForObject(url, ExUserDTO[].class);
+//       for (int i = 0; i < users.length; i++) {
+//         usersBean.put(users[i].getId(), users[i]);
+//       }
+//       return Arrays.asList(users);
+//     } else {
+//       List<ExUserDTO> ls = new ArrayList<ExUserDTO>();
+//       for (Map.Entry<Integer, ExUserDTO> entry : usersBean.entrySet()) {
+//         ls.add(entry.getValue());
+//       }
+//       return ls;
+//     }
+//   }
+
+//   @Override
+//   public List<ExPostDTO> getPosts() {
+//     boolean empty = postsBean //
+//         .isEmpty();
+//     if (empty) {
+//       String url = UriComponentsBuilder.newInstance() //
+//           .scheme(Scheme.HTTPS.lowercase()) //
+//           .host(this.domain) //
+//           .path(this.postsEndpoint) //
+//           .toUriString(); //
+//       ExPostDTO[] posts = restTemplate.getForObject(url, ExPostDTO[].class);
+//       for (int i = 0; i < posts.length; i++) {
+//         postsBean.add(posts[i].getUserId(), posts[i]);
+//       }
+//       return Arrays.asList(posts);
+//     } else {
+//       List<ExPostDTO> ls = new ArrayList<ExPostDTO>();
+//       for (Integer key : postsBean.keySet()) {
+//         for (ExPostDTO value : postsBean.get(key)) {
+//           ls.add(value);
+//         }
+//       }
+//       return ls;
+//     }
+//   }
+
+//   @Override
+//   public List<ExCommentDTO> getComments() {
+//     boolean empty = commentsBean //
+//         .isEmpty();
+//     if (empty) {
+//       String url = UriComponentsBuilder.newInstance() //
+//           .scheme(Scheme.HTTPS.lowercase()) //
+//           .host(this.domain) //
+//           .path(this.commentsEndpoint) //
+//           .toUriString(); //
+//       ExCommentDTO[] comments =
+//           restTemplate.getForObject(url, ExCommentDTO[].class);
+//       for (int i = 0; i < comments.length; i++) {
+//         commentsBean.add(comments[i].getPostId(), comments[i]);
+//       }
+//       return Arrays.asList(comments);
+//     } else {
+//       List<ExCommentDTO> ls = new ArrayList<ExCommentDTO>();
+//       for (Integer key : commentsBean.keySet()) {
+//         for (ExCommentDTO value : commentsBean.get(key)) {
+//           ls.add(value);
+//         }
+//       }
+//       return ls;
+//     }
+//   }
+// }
+

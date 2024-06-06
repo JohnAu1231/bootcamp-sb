@@ -3,6 +3,7 @@ package com.bootcamp.exercise2.model.mapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -14,63 +15,82 @@ import com.bootcamp.exercise2.model.respDto.UserDTO;
 import com.bootcamp.exercise2.model.respDto.UserWithCommentDTO;
 import com.bootcamp.exercise2.model.respDto.UserDTO.PostDTO;
 import com.bootcamp.exercise2.model.respDto.UserDTO.PostDTO.CommentDTO;
+import lombok.NonNull;
 
 @Component
 public class UserMapper {
 
-  @Autowired
-  private Map<Integer, ExUserDTO> usersBean;
+  // @Autowired
+  // private Map<Integer, ExUserDTO> usersBean;
 
-  @Autowired
-  private MultiValueMap<Integer, ExPostDTO> postsBean;
+  // @Autowired
+  // private MultiValueMap<Integer, ExPostDTO> postsBean;
 
-  @Autowired
-  private MultiValueMap<Integer, ExCommentDTO> commentsBean;
+  // @Autowired
+  // private MultiValueMap<Integer, ExCommentDTO> commentsBean;
 
-  public UserDTO mapToUserDTO(ExUserDTO user) {
-    List<PostDTO> ls = new ArrayList<PostDTO>();      
-    for (Integer key: postsBean.keySet()) {
-      for (ExPostDTO value: postsBean.get(key)) {
-      if (key == user.getId()) {
-        ls.add(mapToPostDTO(value));
-      }
+  public UserDTO mapToUserDTO(ExUserDTO user, List<ExPostDTO> posts,
+      List<ExCommentDTO> comments) {
+    if (user == null)
+      return null;
+
+    List<PostDTO> ls = null;
+    if (posts != null) {
+      ls = posts.stream() //
+          .filter(e -> e.getUserId() == user.getId()) //
+          .map(e -> mapToPostDTO(e, comments)) //
+          .collect(Collectors.toList());
     }
-  }
-
-    return UserDTO.builder() //
+    UserDTO.Address userAddress = null;
+    if (user.getAddress() != null) {
+      UserDTO.Address.Geo userAddressGeo = null;
+      if (user.getAddress().getGeo() != null) {
+        userAddressGeo = UserDTO.Address.Geo.builder() //
+            .latitude(user.getAddress().getGeo().getLatitude())//
+            .longtitude(user.getAddress().getGeo().getLongtitude()).build();
+      }
+      userAddress = UserDTO.Address.builder() //
+          .street(user.getAddress().getStreet()) //
+          .suite(user.getAddress().getSuite()) //
+          .city(user.getAddress().getCity()) //
+          .zipcode(user.getAddress().getZipcode()) //
+          .geo(userAddressGeo) //
+          .build();
+    }
+    UserDTO.Company userCompany = null;
+    if (user.getCompany() != null) {
+      userCompany = UserDTO.Company.builder() //
+          .name(user.getCompany().getName()) //
+          .business(user.getCompany().getBusiness()) //
+          .catchPhrase(user.getCompany().getCatchPhrase()) //
+          .build();
+    }
+    UserDTO result = UserDTO.builder() //
         .name(user.getName()) //
         .username(user.getUsername()) //
         .phone(user.getPhone()) //
         .email(user.getEmail()) //
         .website(user.getWebsite()) //
         .id(user.getId()) //
-        .address(UserDTO.Address.builder() //
-            .street(user.getAddress().getStreet()) //
-            .suite(user.getAddress().getSuite()) //
-            .city(user.getAddress().getCity()) //
-            .zipcode(user.getAddress().getZipcode()) //
-            .geo(UserDTO.Address.Geo.builder() //
-                .latitude(user.getAddress().getGeo().getLatitude())//
-                .longtitude(user.getAddress().getGeo().getLongtitude()).build()) //
-            .build())
-        .company(UserDTO.Company.builder() //
-            .name(user.getCompany().getName()) //
-            .business(user.getCompany().getBusiness()) //
-            .catchPhrase(user.getCompany().getCatchPhrase()) //
-            .build()) //
+        .address(userAddress) //
+        .company(userCompany) //
         .posts(ls) //
         .build();
+
+    return result;
   }
 
-  public PostDTO mapToPostDTO(ExPostDTO post) {
-    List<CommentDTO> ls = new ArrayList<CommentDTO>();
-    for (Integer key: commentsBean.keySet()) {
-      for (ExCommentDTO value: commentsBean.get(key)) {
-      if (key == post.getId()) {
-        ls.add(mapToCommentDTO(value));
-      }
+  public PostDTO mapToPostDTO(ExPostDTO post, List<ExCommentDTO> comments) {
+
+    if (post == null)
+      return null;
+    List<CommentDTO> ls = null;
+    if (comments != null) {
+      ls = comments.stream() //
+          .filter(e -> e.getPostId() == post.getId())
+          .map(e -> mapToCommentDTO(e)) //
+          .collect(Collectors.toList());
     }
-  }
     return PostDTO.builder()//
         .body(post.getBody()) //
         .id(post.getId()) //
@@ -79,7 +99,8 @@ public class UserMapper {
         .build();
   }
 
-  public CommentDTO mapToCommentDTO(ExCommentDTO comment) {
+  public CommentDTO mapToCommentDTO(@NonNull ExCommentDTO comment) {
+    
     return CommentDTO.builder() //
         .body(comment.getBody()) //
         .email(comment.getEmail()) //
@@ -89,6 +110,8 @@ public class UserMapper {
   }
 
   public CommentWithoutIdDTO mapToCommentWithoutIdDTO(CommentDTO comment) {
+      if(comment == null)
+        return null;
     return CommentWithoutIdDTO.builder() //
         .body(comment.getBody()) //
         .email(comment.getEmail()) //
@@ -96,12 +119,17 @@ public class UserMapper {
         .build();
   }
 
-  public UserWithCommentDTO mapToUserWithCommentDTO(UserDTO user, List<CommentWithoutIdDTO> comments) {
+  public UserWithCommentDTO mapToUserWithCommentDTO(UserDTO user,
+      List<CommentWithoutIdDTO> comments) {
+        List<CommentWithoutIdDTO> ls = null;
+        if (comments != null) {
+          ls = comments;
+        }
     return UserWithCommentDTO.builder() //
-            .id(user.getId()) //
-            .userName(user.getUsername()) //
-            .comments(comments) //
-            .build();
+        .id(user.getId()) //
+        .userName(user.getUsername()) //
+        .comments(ls) //
+        .build();
   }
 
 }
