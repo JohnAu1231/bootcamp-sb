@@ -8,3 +8,17 @@ api:
       users: '/users'
       posts: '/posts'
       comments: '/comments'
+
+database: 
+  db-name: "exercise3"
+      
+spring:
+  datasource:
+    driverClassName: "org.postgresql.Driver"
+    url: "jdbc:postgresql://localhost:5432/${database.db-name}"
+    username: "postgres"
+    password: "admin1234"
+
+spring.jpa:
+  show-sql: true 
+  hibernate.ddl-auto: update # update

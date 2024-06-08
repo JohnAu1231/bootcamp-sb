@@ -17,6 +17,8 @@ public interface UserRespository extends JpaRepository<UserEntity, Long>{
   // select * from users where phone = ?
   UserEntity findByPhone(String phone);
 
+  
+
   //select * from users where addrLat = ? and addrLng = ?
   UserEntity findByAddrLatAndAddrLng(String addrLat, String addrLng);
 
@@ -27,7 +29,7 @@ public interface UserRespository extends JpaRepository<UserEntity, Long>{
 
   List<UserEntity> findByName(String name);
 
-  List<UserEntity> findByNameOrderByIdDesc(String name);
+  List<UserEntity> findByNameOrderByIDDesc(String name);
 
   // JPQL work with Entity & JPA
   @Query(value = "SELECT e FROM UserEntity e WHERE CAST(e.addrLat AS double) > :lat")

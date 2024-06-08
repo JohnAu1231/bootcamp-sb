@@ -16,7 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserDTO {
-  private int id;
+  private Long id;
   private String name;
   private String username;
   private String email;
@@ -32,7 +32,7 @@ public class UserDTO {
   @Getter
   @ToString
   public static class PostDTO {
-    int id;
+    Long id;
     String title;
     String body;
     List<CommentDTO> comments;
@@ -43,7 +43,7 @@ public class UserDTO {
     @Getter
     @ToString
     public static class CommentDTO {
-      int id;
+      Long id;
       String name;
       String email;
       String body;

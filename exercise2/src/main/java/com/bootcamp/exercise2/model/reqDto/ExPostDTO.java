@@ -8,8 +8,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ExPostDTO {
-  int userId;
-  int id;
+  Long userId;
+  Long id;
   String title;
   String body;
 }

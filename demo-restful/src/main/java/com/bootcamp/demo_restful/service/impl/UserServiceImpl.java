@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public List<UserEntity> getUserNameOrderById(String name) {
-    Optional<List<UserEntity>> userEntities = Optional.of(userRespository.findByNameOrderByIdDesc(name));
+    Optional<List<UserEntity>> userEntities = Optional.of(userRespository.findByNameOrderByIDDesc(name));
     if (userEntities.isPresent()) 
       return userEntities.get();
     throw new NotFoundException();

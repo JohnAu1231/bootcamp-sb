@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import com.bootcamp.exercise2.infra.ApiResp;
 import com.bootcamp.exercise2.infra.ErrorCode;
 import com.bootcamp.exercise2.infra.GlobalExceptionHandler;
@@ -45,5 +46,14 @@ public class LocalExceptionHandler extends GlobalExceptionHandler {
     return ApiResp.<Void>builder() //
                   .error(SysCode.RESTTEMPLATE_ERROR) //
                   .build();
+  }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  public ApiResp<Void> noResourceFoundExceptionHandler(NotFoundException e) {
+    return ApiResp.<Void>builder() //
+            .code(e.getCode()) //
+            .message(e.getMessage()) //
+            .build();
   }
 }

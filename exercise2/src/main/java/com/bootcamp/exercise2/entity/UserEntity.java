@@ -1,10 +1,11 @@
-package com.bootcamp.demo_restful.entity;
+package com.bootcamp.exercise2.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import com.bootcamp.demo_restful.model.dto.User.Address;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -23,12 +27,15 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Users")
 public class UserEntity implements Serializable {
 
   @Id // Table Primary Key
   @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto increment
-  // @Column(name ="user_id")
+  @Column(name ="user_id")
   private Long id;
   private String name;
   @Column(name = "user_name")
@@ -44,8 +51,10 @@ public class UserEntity implements Serializable {
   private String addrCity;
   @Column(name = "addr_zipcode")
   private String addrZipcode;
+
   @Column(name = "addr_lat")
   private String addrLat;
+
   @Column(name = "addr_lng")
   private String addrLng;
 
@@ -65,19 +74,8 @@ public class UserEntity implements Serializable {
   // @JoinColumn(name = "user_id")
   // private List<PostEntity> posts = new ArrayList<>();
 
-   @OneToMany(mappedBy = "user", //
+   @OneToMany(mappedBy = "user", //java object name
       cascade = CascadeType.ALL)
+      @JsonManagedReference
   private List<PostEntity> posts = new ArrayList<>();
-
-    // Cascade:
-  // PERSIST: When the parent entity is persisted (saved), the child entities
-  // will also be persisted.
-  // MERGE: When the parent entity is merged (updated), the child entities will
-  // also be merged.
-  // REMOVE: When the parent entity is removed (deleted), the child entities
-  // will also be removed.
-  // REFRESH: When the parent entity is refreshed, the child entities will also
-  // be refreshed.
-  // DETACH: When the parent entity is detached, the child entities will also be
-  // detached.
 }

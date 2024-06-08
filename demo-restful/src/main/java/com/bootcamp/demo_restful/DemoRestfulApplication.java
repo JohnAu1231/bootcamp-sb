@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoRestfulApplication {
 
 	public static void main(String[] args) {
+		// Try to find a bean can be @autowird to CommandLineRunner (Interface)
+		// bean.run(); -> one of the processes of SpringApplication.run()
 		SpringApplication.run(DemoRestfulApplication.class, args);
 	}
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class UserWithCommentDTO {
-  int id;
+  Long id;
   String userName;
   List<CommentWithoutIdDTO> comments;
 }

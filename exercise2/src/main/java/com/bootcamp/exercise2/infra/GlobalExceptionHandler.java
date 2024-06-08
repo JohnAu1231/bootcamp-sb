@@ -4,6 +4,7 @@ package com.bootcamp.exercise2.infra;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 // @ContollerAdvice + @ResponseBody
 public class GlobalExceptionHandler {
@@ -34,6 +35,9 @@ public class GlobalExceptionHandler {
                   .build();
   }
 
+  
+
+
   @ExceptionHandler(BusinessRuntimeException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ApiResp<Void> busineesRuntimeExceptionHandler(BusinessRuntimeException e) {
@@ -42,6 +46,7 @@ public class GlobalExceptionHandler {
                   .message(e.getMessage()) //
                   .build();
   }
+
 
   // @ExceptionHandler(Exception.class)
   // @ResponseStatus(value = HttpStatus.BAD_REQUEST)
