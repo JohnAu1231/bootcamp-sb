@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
@@ -77,5 +78,6 @@ public class UserEntity implements Serializable {
    @OneToMany(mappedBy = "user", //java object name
       cascade = CascadeType.ALL)
       @JsonManagedReference
+      @JsonIgnore
   private List<PostEntity> posts = new ArrayList<>();
 }

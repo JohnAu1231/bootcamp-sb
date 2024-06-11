@@ -12,5 +12,14 @@ public interface CommentService {
 
   List<CommentEntity> getCommentsFromDB();
 
+  List<CommentEntity> getCommentsByPostId(Long postId);
+
   List<CommentEntity> getCommentsByUserIdFromDB(Long id);
+
+  void saveComments();
+
+  CommentEntity addComment(Long postId, String name, String body, String email);
+
+  CommentEntity updateComment(Long commentId, String name, String body,
+  String email);
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface UserRespository extends JpaRepository<UserEntity, Long>{
  
+
 }

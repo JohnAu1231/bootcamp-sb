@@ -24,7 +24,7 @@ public class CommentEntityMapper {
   }
 
     public CommentDTO mapToCommentDTO(@NonNull CommentEntity comment) {
-    
+
     return CommentDTO.builder() //
         .body(comment.getBody()) //
         .email(comment.getEmail()) //
