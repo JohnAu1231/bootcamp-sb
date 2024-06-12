@@ -1,6 +1,7 @@
 package com.bootcamp.exercise2.infra;
 
 import java.util.List;
+import com.bootcamp.exercise2.exceptions.LocalSysCode;
 
 public class ApiResp<T> {
 
@@ -59,6 +60,12 @@ public class ApiResp<T> {
     }
 
     public ApiRespBuilder<T> error(SysCode sysCode) {
+      this.code = sysCode.getCode();
+      this.message = sysCode.getDesc();
+      return this;
+    }
+
+    public ApiRespBuilder<T> error(LocalSysCode sysCode) {
       this.code = sysCode.getCode();
       this.message = sysCode.getDesc();
       return this;

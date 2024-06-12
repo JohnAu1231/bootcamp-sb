@@ -6,7 +6,7 @@ import com.bootcamp.exercise2.entity.UserEntity;
 import java.util.List;
 
 
-@Repository
+// @Repository
 public interface UserRespository extends JpaRepository<UserEntity, Long>{
  
 

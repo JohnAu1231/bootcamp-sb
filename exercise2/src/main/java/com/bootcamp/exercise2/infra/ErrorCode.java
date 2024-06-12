@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ErrorCode {
+public enum ErrorCode{
 NPE(99, "Null Pointer Exception."), //
 NFE(99, "NumberFormat Exception."), //
 AE(99, "Arithmetic Exception."), //

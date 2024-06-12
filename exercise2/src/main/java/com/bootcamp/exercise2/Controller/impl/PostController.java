@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.exercise2.controller.PostOperation;
+import com.bootcamp.exercise2.entity.CommentEntity;
 import com.bootcamp.exercise2.entity.PostEntity;
 import com.bootcamp.exercise2.entity.UserEntity;
 import com.bootcamp.exercise2.infra.ApiResp;
@@ -31,14 +32,6 @@ public class PostController implements PostOperation {
   @Autowired
   private PostEntityMapper postEntityMapper;
 
-  @Autowired
-  private PostRespository postRespository;
-
-  @Autowired
-  private UserService userService;
-
-  @Autowired
-  private UserEntityMapper userEntityMapper;
 
   @Autowired
   private CommentService commentService;
@@ -54,7 +47,12 @@ public class PostController implements PostOperation {
   @Override
   public List<PostDTO> getPostsFromDB() {
     return postService.getPostsFromDB().stream() //
-        .map(e -> postEntityMapper.mapToPostDTO(e)) //
+        .map(e -> {
+          List<CommentDTO> comments = commentService.getCommentsByPostId(e.getId()).stream()//
+          .map(c -> commentEntityMapper.mapToCommentDTO(c)) //
+          .collect(Collectors.toList());
+          return postEntityMapper.mapToPostDTO(e, comments);
+        }) //
         .collect(Collectors.toList());
   }
 

@@ -21,14 +21,21 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.MultiValueMap;
 import com.bootcamp.exercise2.config.AppConfig;
 import com.bootcamp.exercise2.controller.impl.UserController;
+import com.bootcamp.exercise2.model.mapper.CommentEntityMapper;
+import com.bootcamp.exercise2.model.mapper.PostEntityMapper;
+import com.bootcamp.exercise2.model.mapper.UserEntityMapper;
 import com.bootcamp.exercise2.model.mapper.UserMapper;
 import com.bootcamp.exercise2.model.reqDto.ExCommentDTO;
 import com.bootcamp.exercise2.model.reqDto.ExPostDTO;
 import com.bootcamp.exercise2.model.reqDto.ExUserDTO;
 import com.bootcamp.exercise2.model.respDto.UserDTO;
+import com.bootcamp.exercise2.respository.CommentRespository;
+import com.bootcamp.exercise2.respository.PostRespository;
+import com.bootcamp.exercise2.respository.UserRespository;
 import com.bootcamp.exercise2.service.CommentService;
 import com.bootcamp.exercise2.service.PostService;
 import com.bootcamp.exercise2.service.UserService;
+import jakarta.persistence.PostRemove;
 import lombok.extern.slf4j.Slf4j;
 
 @WebMvcTest(UserController.class)
@@ -46,8 +53,27 @@ class UserControllerTest {
     @SpyBean
     private UserMapper userMapper;
 
+    @SpyBean 
+    private UserEntityMapper userEntityMapper;
+
+    @SpyBean
+    private CommentEntityMapper commentEntityMapper;
+
+    @SpyBean
+    private PostEntityMapper postEntityMapper;
+
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private CommentRespository commentRespository;
+
+    @MockBean
+    private UserRespository userRespository;
+
+    @MockBean 
+    private PostRespository postRespository;
+
 
     @Test
     void testGetUsers() throws Exception {
@@ -73,10 +99,11 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/users")) //
                 .andExpect(MockMvcResultMatchers.status().isOk())//
                 .andExpect(
-                        MockMvcResultMatchers.jsonPath("$.length()").value(2))//
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))//
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))//
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].email")
+                        MockMvcResultMatchers.jsonPath("$.length()").value(3))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(0))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].id").value(1))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].id").value(2))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].email")
                         .value("123@gmail.com"))//
         ;
         verify(userService, times(1)).getUsers();

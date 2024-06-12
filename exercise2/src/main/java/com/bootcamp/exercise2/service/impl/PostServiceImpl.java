@@ -91,7 +91,7 @@ public class PostServiceImpl implements PostService {
 
   public PostEntity deletePost(Long postId) {
     PostEntity post = postRespository.findById(postId).get();
-    postRespository.delete(post);
+    postRespository.deleteById(postId);
     return post;
   }
 }

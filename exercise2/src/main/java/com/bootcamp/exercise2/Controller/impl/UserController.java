@@ -62,44 +62,35 @@ public class UserController implements UserOperation {
         }) //
         .collect(Collectors.toList());
 
-        return ApiResp.<UserDTO>builder() //
-          .ok() //
-          .data(ls) //
-          .build();
+    return ApiResp.<UserDTO>builder() //
+        .ok() //
+        .data(ls) //
+        .build();
   }
-
-
-  // @Override 
-  // public ApiResp<UserDTO> getUsersFromDB() {
-  //   return userService.getUsersFromDB().stream() //
-  //           .map(e -> mapToUserDTO)
-  // }
-
-
 
   @Override
   public ApiResp<UserDTO> getUser(Long id) {
-  //  return userEntityMapper.mapToUserDTO(userService.getUser(id), );
-  return null;
+    // return userEntityMapper.mapToUserDTO(userService.getUser(id), );
+    return null;
   }
 
   @Override
   public ApiResp<UserEntity> update(UserDTO user) {
     UserEntity result = userEntityMapper.mapToUserEntity(user);
     userRespository.save(result);
-   return ApiResp.<UserEntity>builder() //
-    .ok() //
-    .data(List.of(result)) //
-    .build();
+    return ApiResp.<UserEntity>builder() //
+        .ok() //
+        .data(List.of(result)) //
+        .build();
   }
 
   @Override
-  public ApiResp<UserEntity> getUserEntity(Long id){
-   UserEntity result = userRespository.findById(id).get();
+  public ApiResp<UserEntity> getUserEntity(Long id) {
+    UserEntity result = userRespository.findById(id).get();
     return ApiResp.<UserEntity>builder() //
-    .ok() //
-    .data(List.of(result)) //
-    .build();
+        .ok() //
+        .data(List.of(result)) //
+        .build();
   }
 
 

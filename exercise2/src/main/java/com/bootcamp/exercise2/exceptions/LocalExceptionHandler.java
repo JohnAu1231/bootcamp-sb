@@ -1,5 +1,6 @@
 package com.bootcamp.exercise2.exceptions;
 
+import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,8 +31,17 @@ public class LocalExceptionHandler extends GlobalExceptionHandler {
                   .error(SysCode.USER_ID_NOT_FOUND) //
                   .build();
   }
-  
 
+  @ExceptionHandler(NoSuchElementException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  public ApiResp<Void> noSuchElementExceptionHandler(NoSuchElementException e) {
+    return ApiResp.<Void>builder() //
+                  .error(LocalSysCode.NO_SUCH_ELEMENT) //
+                  .build();
+  }
+
+
+  
   // @ExceptionHandler(ResTemplateError.class)
   // @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   // public ApiResp<Void> restTemplateErrorHandler(ResTemplateError e) {
