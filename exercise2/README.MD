@@ -1,1 +1,1 @@
-![alt text](img/ERD.png)
+![ERD](img/ERD.png)
